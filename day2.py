@@ -20,9 +20,6 @@ def determine_outcome_game(opponent, own):
         else:
             return 6
 
-filepath = helpers.load_txt_file(2)
-df = pd.read_csv(filepath, delimiter=' ', names=['opponent_move', 'suggested_move'])
-# df = pd.DataFrame([['A', 'Y'], ['B', 'X'], ['C', 'Z']], columns=['opponent_move', 'suggested_move'])
 mapper = {
     'A': 'r',
     'B': 'p',
@@ -39,12 +36,16 @@ selected_scores = {
 
 
 }
-df['opponent_move'] = df['opponent_move'].map(mapper)
-df['suggested_move'] = df['suggested_move'].map(mapper)
-df['outcome'] = df.apply(lambda row: determine_outcome_game(row['opponent_move'], row['suggested_move']), axis=1)
-df['selected_score'] = df['suggested_move'].map(selected_scores)
-df['result'] = df['outcome'] + df['selected_score']
-print(df['result'].sum())
+
+def pt1(data):
+    data = [line.split() for line in data]
+    df = pd.DataFrame(data, columns=['opponent_move', 'suggested_move'])
+    df['opponent_move'] = df['opponent_move'].map(mapper)
+    df['suggested_move'] = df['suggested_move'].map(mapper)
+    df['outcome'] = df.apply(lambda row: determine_outcome_game(row['opponent_move'], row['suggested_move']), axis=1)
+    df['selected_score'] = df['suggested_move'].map(selected_scores)
+    df['result'] = df['outcome'] + df['selected_score']
+    return df['result'].sum()
 
 def pick_move(opponent, suggested):
     if suggested == 's': # win
@@ -70,9 +71,15 @@ outcome_mapper = {
     's': 6
 }
 
-df['move_pt2'] = df.apply(lambda row: pick_move(row['opponent_move'], row['suggested_move']), axis=1)
-df['selected_score_pt2'] = df['move_pt2'].map(selected_scores)
-df['outcome_pt2'] = df['suggested_move'].map(outcome_mapper)
-df['result2'] = df['selected_score_pt2'] + df['outcome_pt2']
-print(df['result2'].sum())
-print(df)
+def pt2(data):
+    data = [line.split() for line in data]
+    df = pd.DataFrame(data, columns=['opponent_move', 'suggested_move'])
+    df['opponent_move'] = df['opponent_move'].map(mapper)
+    df['suggested_move'] = df['suggested_move'].map(mapper)
+    df['outcome'] = df.apply(lambda row: determine_outcome_game(row['opponent_move'], row['suggested_move']), axis=1)
+    df['selected_score'] = df['suggested_move'].map(selected_scores)
+    df['move_pt2'] = df.apply(lambda row: pick_move(row['opponent_move'], row['suggested_move']), axis=1)
+    df['selected_score_pt2'] = df['move_pt2'].map(selected_scores)
+    df['outcome_pt2'] = df['suggested_move'].map(outcome_mapper)
+    df['result2'] = df['selected_score_pt2'] + df['outcome_pt2']
+    return df['result2'].sum()
