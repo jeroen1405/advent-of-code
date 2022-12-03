@@ -1,7 +1,7 @@
 def char_to_priority(char):
     # ASCII table: A = 65, a = 97
     # convert to ASCII value, set array to start at 0 and
-    # add AoC priority (1-27 for lowercase, 28-56 for uppercase)
+    # add AoC priority (1-26 for lowercase, 27-52 for uppercase)
     if char.islower():
         prio = ord(char) - 97 + 1
     else:

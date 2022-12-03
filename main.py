@@ -1,5 +1,5 @@
 import helpers
-DAY = 1
+DAY = 3
 testing = False
 day_module = __import__('day' + str(DAY))
 input_content = helpers.load_txt_file(DAY)
@@ -16,7 +16,7 @@ if testing:
     ]
     # Sample data #
 
-# print(input_content)
+    print(input_content)
 
 answer_pt1 = day_module.pt1(input_content)
 print('Answer part 1: ', answer_pt1)
